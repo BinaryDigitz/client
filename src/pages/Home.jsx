@@ -1,5 +1,5 @@
 import React from 'react'
-import { Description, Hero, Steps } from '../components/exportComp'
+import { Description,Testimonials , Hero, Steps } from '../components/exportComp'
 
 function Home() {
   return (
@@ -7,6 +7,7 @@ function Home() {
       <Hero />
       <Steps />
       <Description />
+      <Testimonials />
     </div>
   )
 }
