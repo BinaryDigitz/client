@@ -1,11 +1,12 @@
 import React from 'react'
-import { Hero, Steps } from '../components/exportComp'
+import { Description, Hero, Steps } from '../components/exportComp'
 
 function Home() {
   return (
     <div>
       <Hero />
       <Steps />
+      <Description />
     </div>
   )
 }
