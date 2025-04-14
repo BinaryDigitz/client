@@ -9,7 +9,7 @@ function Hero() {
         <img src={assets.star_icon} alt="" />
       </div>
       <h1 className="text-4xl max-w-[300px] sm:text-7xl lg:max-w-[650px] mx-auto mt-10 text-center">
-        Turn text to <span className="text-blue-600">image</span>, in seconds.
+        Turn text to <span className="text-blue-600">image</span> in seconds.
       </h1>
       <p className="text-center max-w-xl mx-auto mt-5">
         Unleash your creativity with AI. Turn your imagination inot visual art
