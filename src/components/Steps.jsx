@@ -10,7 +10,7 @@ function Steps() {
       </p>
       <div className="space-y-4 w-full max-w-3xl text-sm">
         {stepsData.map((item) => (
-          <div className="flex items-center gap-4 p-5 px-8 bg-white/20 shadow-md border border-gray-200 rounded-lg cursor-pointer hover:scale-105 trans">
+          <div key={item.title} className="flex items-center gap-4 p-5 px-8 bg-white/20 shadow-md border border-gray-200 rounded-lg cursor-pointer hover:scale-105 trans">
             <img width={40} src={item.icon} alt="icon" />
             <div>
                 <h2 className="text-xl font-medium">{ item.title}</h2>
