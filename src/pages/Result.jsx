@@ -1,23 +1,14 @@
 import React, { useContext } from "react";
-import { assets } from "../assets/assets";
 import AppContext from "../context/AppContext";
 
 function Result() {
-  const {
-    image,
-    setImage,
-    isLoading,
-    setLoading,
-    isImageLoaded,
-    setImageLoaded,
-    input,
-    setInput,
-  } = useContext(AppContext);
+  const { image, isLoading, isImageLoaded, setImageLoaded, input, setInput } =
+    useContext(AppContext);
 
-  async function onSubmit(event){
-    event.preventDefault()
+  async function onSubmit(event) {
+    event.preventDefault();
 
-    setInput('')
+    setInput("");
   }
   return (
     <form
