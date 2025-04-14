@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+import { motion } from "motion/react"
 import AppContext from "../context/AppContext";
 
 function Result() {
@@ -11,7 +12,11 @@ function Result() {
     setInput("");
   }
   return (
-    <form
+    <motion.form
+    initial={{ opacity:0.2, y:100}}
+    transition={{ duration: 1}}
+    whileInView={{ opacity: 1, y:0}}
+    viewport={{once: true}}
       onSubmit={onSubmit}
       className=" flex flex-col min-h-[90vh] justify-center items-center"
     >
@@ -59,7 +64,7 @@ function Result() {
           </a>
         </div>
       )}
-    </form>
+    </motion.form>
   );
 }
 
