@@ -6,7 +6,7 @@ import { assets } from "../assets/assets";
 function AppProvider({ children }) {
   const navigate = useNavigate()
   const [ showLogin, setShowLogin ] = useState(false)
-  const [ user, setUser ] = useState(false);
+  const [ user, setUser ] = useState(true);
   const [ image, setImage ] = useState(assets.sample_img_1)
   const [ isLoading, setLoading ] = useState(false)
   const [ isImageLoaded, setImageLoaded ] = useState(true)
