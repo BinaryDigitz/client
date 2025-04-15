@@ -10,6 +10,7 @@ import {
   Footer,
 } from "./components/exportComp.js";
 import AppContext from "./context/AppContext.jsx";
+import { ToastContainer } from 'react-toastify'
 
 function App() {
  const { showLogin} = useContext(AppContext)
@@ -20,6 +21,7 @@ function App() {
       </header>
      { showLogin && <Login />}
       <main>
+        <ToastContainer />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/credit" element={<BuyCredit />} />

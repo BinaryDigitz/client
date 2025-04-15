@@ -1,11 +1,17 @@
 import React, { useContext, useEffect, useState } from "react";
 import { assets } from "../assets/assets";
-import { motion } from "motion/react"
+import { motion } from "motion/react";
 import AppContext from "../context/AppContext";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 function Login() {
-  const { setShowLogin } = useContext(AppContext);
+  const { setToken, baseUrl, setUser, navigate, setShowLogin } =
+    useContext(AppContext);
+
   const [formState, setFormState] = useState("Login");
+  const [error, setError] = useState("");
+  const [isLoading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -13,9 +19,11 @@ function Login() {
   });
 
   function clearForm() {
+    setLoading(false);
     return setFormData({ name: "", email: "", password: "" });
   }
   function toggleState() {
+    setError("");
     clearForm();
     if (formState === "Login") {
       return setFormState("Sign Up");
@@ -28,17 +36,66 @@ function Login() {
       document.body.style.overflow = "unset";
     };
   }, []);
+  async function handleFormSubmit(event) {
+    event.preventDefault();
+    setError("");
+    setLoading(true);
+
+    // LOGIN
+    try {
+      if (formState === "Login") {
+        const { name: _, ...user } = formData;
+
+        const { data } = await axios.post(`${baseUrl}/api/users/sign-in`, user);
+
+        if (!data.success) {
+          setError(data.message);
+          setError(data.message);
+          return clearForm();
+        } else {
+          toast.success("Loggined successfully");
+          setToken(data.userToken);
+          localStorage.setItem("token", data.data.userToken);
+          setUser(data.data.user);
+          setShowLogin(false);
+          setTimeout(() => navigate("/"), 1000);
+          return clearForm();
+        }
+        // SIGN-UP
+      } else {
+        const { data } = await axios.post(
+          `${baseUrl}/api/users/sign-up`,
+          formData
+        );
+        if (!data.success) {
+          setError(data.message);
+          setError(data.message);
+          return clearForm();
+        } else {
+          toast.success("Sign up successfully");
+          setToken(data.userToken);
+          localStorage.setItem("token", data.data.userToken);
+          setUser(data.data.user);
+          setShowLogin(false);
+          return clearForm();
+        }
+      }
+    } catch (ex) {
+      toast.error(ex.message);
+      console.log(ex);
+    }
+  }
 
   return (
-    <div
-    
-     className="absolute top-0 left-0 right-0 bottom-0 z-10 backdrop-blur-sm bg-black/30 flex justify-center items-center">
-      <motion.form 
-      initial={{ opacity:0.2, y:50}}
-      transition={{ duration: 0.3}}
-      whileInView={{ opacity: 1, y:0}}
-      viewport={{once: true}}
-      className="relative bg-white p-10 rounded-xl text-slt-500">
+    <div className="absolute top-0 left-0 right-0 bottom-0 z-10 backdrop-blur-sm bg-black/30 flex justify-center items-center">
+      <motion.form
+        initial={{ opacity: 0.2, y: 50 }}
+        transition={{ duration: 0.3 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        onSubmit={handleFormSubmit}
+        className="relative bg-white p-10 rounded-xl text-slt-500"
+      >
         <h1 className="text-center text-2xl text-neutral-700 font-medium">
           {formState === "Login" ? "Login" : "Sign Up"}
         </h1>
@@ -119,8 +176,16 @@ function Login() {
             Forgot password
           </p>
         )}
-        <button className="bg-blue-600 w-full text-white hover:bg-blue-500 trans py-2 rounded-full cursor-pointer">
-          {formState === "Login" ? "Login" : "Create account"}
+        <button
+          className={`${
+            isLoading ? "bg-blue-400" : "bg-blue-600"
+          } w-full text-white hover:bg-blue-500 trans py-2 rounded-full cursor-pointer`}
+        >
+          {isLoading ? (
+            "Loading...."
+          ) : (
+            <p>{formState === "Login" ? "Login" : "Create account"}</p>
+          )}
         </button>
         <hr className="my-3 border-gray-300" />
         {formState === "Login" ? (
@@ -146,7 +211,7 @@ function Login() {
         )}
 
         <span
-          onClick={() =>setShowLogin(false)}
+          onClick={() => setShowLogin(false)}
           className="absolute top-5 right-4 size-7 grid place-items-center cursor-pointer hover:bg-blue-50 shadow-sm trans"
         >
           <img
@@ -155,6 +220,7 @@ function Login() {
             alt=""
           />
         </span>
+        <p className="text-center text-sm text-red-400 py-3">{error}</p>
       </motion.form>
     </div>
   );

@@ -22,7 +22,7 @@ function Navbar() {
                 Credit Left: 40
               </span>
             </button>
-            <p className="max-sm:hidden pl-4 text-gray-600">Hi, Boris</p>
+            <p className="max-sm:hidden pl-4 text-gray-600">Hi, {user.name}</p>
             <div className="relative group">
               <img
                 src={assets.profile_icon}
